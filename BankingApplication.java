@@ -2,119 +2,138 @@ package com.sumanth.project;
 
 import java.util.Scanner;
 
+/**
+ * Aquesta classe representa una aplicació bancària simple que permet realitzar operacions
+ * com consultar saldo, dipositar, retirar fons i veure transaccions anteriors.
+ */
 public class BankingApplication {
 
-	public static void main(String[] args) {
-
-		BankAccount first = new BankAccount("Dr Siddalinga Murthy", "SD1234");
-		first.showmenu();
-	}
+    /**
+     * Mètode principal que crea una instància de CompteBancari i mostra el menú de l'aplicació.
+     * @param args Els arguments de la línia de comandes (no s'utilitzen en aquest cas).
+     */
+    public static void main(String[] args) {
+        CompteBancari primer = new CompteBancari("Dr Siddalinga Murthy", "SD1234");
+        primer.mostrarMenu();
+    }
 }
 
-//create aclass for bankAccount with initializing the variables
-class BankAccount {
+/**
+ * Classe per representar un compte bancari amb saldo, transaccions i detalls del client.
+ */
+class CompteBancari {
 
-	int balance;
-	int previoustransaction;
-	String customername;
-	String customerID;
+    int saldo;
+    int transaccioAnterior;
+    String nomClient;
+    String idClient;
 
-	//Constructor is created 
-	BankAccount(String cusN, String cusID) {
-		customername = cusN;
-		customerID = cusID;
-	}
+    /**
+     * Constructor per inicialitzar una instància de CompteBancari amb el nom del client i el seu ID.
+     * @param nom El nom del client.
+     * @param id L'ID del client.
+     */
+    CompteBancari(String nom, String id) {
+        nomClient = nom;
+        idClient = id;
+    }
 
-	// Creating a Method for Deposit
-	void deposit(int amount) {
-		balance = balance + amount;
-		previoustransaction = amount;
-	}
+    /**
+     * Mètode per realitzar un dipòsit al compte bancari.
+     * @param quantitat La quantitat a dipositar.
+     */
+    void dipositar(int quantitat) {
+        saldo = saldo + quantitat;
+        transaccioAnterior = quantitat;
+    }
 
-	// Creating a Method for WithDraw
-	void withdrawn(int amount) {
-		balance = balance - amount;
-		previoustransaction = -amount;
-	}
-		
-	// Creating a Method to get a previous transactions
-	void getprevioustransaction() {
-		if (previoustransaction > 0) {
-			System.out.println("Credited :" + previoustransaction);
-		} else if (previoustransaction < 0) {
-			System.out.println("Debited :" + Math.abs(previoustransaction));
-		} else {
-			System.out.println("No Transactions");
-		}
-	}
+    /**
+     * Mètode per realitzar un reintegrament del compte bancari.
+     * @param quantitat La quantitat a retirar.
+     */
+    void retirar(int quantitat) {
+        saldo = saldo - quantitat;
+        transaccioAnterior = -quantitat;
+    }
+        
+    /**
+     * Mètode per obtenir l'última transacció realitzada al compte.
+     */
+    void obtenirTransaccioAnterior() {
+        if (transaccioAnterior > 0) {
+            System.out.println("Ingressat: " + transaccioAnterior);
+        } else if (transaccioAnterior < 0) {
+            System.out.println("Tret: " + Math.abs(transaccioAnterior));
+        } else {
+            System.out.println("Sense transaccions");
+        }
+    }
 
-	//This method is doing all operations to get a final result
-	void showmenu() {
+    /**
+     * Mètode per mostrar el menú d'opcions de l'aplicació bancària.
+     */
+    void mostrarMenu() {
 
-		char option = '\0';
-		Scanner scn = new Scanner(System.in);
+        char opcio = '\0';
+        Scanner scn = new Scanner(System.in);
 
-		System.out.println("welcome " + customername);
-		System.out.println("Your ID is :" + customerID);
-		System.out.println("\n");
-		System.out.println("A. Check Balance");
-		System.out.println("B. Withdraw");
-		System.out.println("C. Deposit");
-		System.out.println("D. Previous Transaction");
-		System.out.println("E. Exit");
+        System.out.println("Benvingut " + nomClient);
+        System.out.println("El teu ID és: " + idClient);
+        System.out.println("\n");
+        System.out.println("A. Consultar Saldo");
+        System.out.println("B. Reintegrament");
+        System.out.println("C. Dipòsit");
+        System.out.println("D. Transacció Anterior");
+        System.out.println("E. Sortir");
 
-		do {
-			System.out.println("=====================================================");
-			System.out.println("Enter the option (A-Balance,B-withdraw,C-Deposit,D-Transactions,E-Exit:");
-			System.out.println("=====================================================");
-			option = scn.next().charAt(0);
-			System.out.println("\n");
+        do {
+            System.out.println("=====================================================");
+            System.out.println("Introdueixi l'opció (A-Saldo, B-Reintegrament, C-Dipòsit, D-Transaccions, E-Sortir):");
+            System.out.println("=====================================================");
+            opcio = scn.next().charAt(0);
+            System.out.println("\n");
 
-			switch (option) {
-			case 'A':
+            switch (opcio) {
+                case 'A':
+                    System.out.println("======================================================");
+                    System.out.println("Saldo: " + saldo);
+                    System.out.println("======================================================");
+                    System.out.println("\n");
+                    break;
 
-				System.out.println("======================================================");
-				System.out.println("Balance:  " + balance);
-				System.out.println("======================================================");
-				System.out.println("\n");
-				break;
+                case 'B':
+                    System.out.println("======================================================");
+                    System.out.println("Introdueixi la quantitat a retirar:");
+                    int quantitat = scn.nextInt();
+                    retirar(quantitat);
+                    System.out.println("\n");
+                    break;
 
-			case 'B':
+                case 'C':
+                    System.out.println("======================================================");
+                    System.out.println("Introdueixi la quantitat a dipositar:");
+                    int quantitat1 = scn.nextInt();
+                    dipositar(quantitat1);
+                    System.out.println("\n");
+                    break;
 
-				System.out.println("======================================================");
-				System.out.println("Enter the amount to withdraw:");
-				int amount = scn.nextInt();
-				withdrawn(amount);
-				System.out.println("\n");
-				break;
+                case 'D':
+                    System.out.println("======================================================");
+                    System.out.println("La teva última transacció és:");
+                    obtenirTransaccioAnterior();
+                    break;
 
-			case 'C':
+                case 'E':
+                    System.out.println("******************************************************");
+                    break;
 
-				System.out.println("======================================================");
-				System.out.println("Enter the amount to Deposit :");
-				int amount1 = scn.nextInt();
-				deposit(amount1);
-				System.out.println("\n");
-				break;
+                default:
+                    System.out.println("Opció invàlida. Si us plau, torna-ho a intentar.");
+                    break;
+            }
 
-			case 'D':
-				System.out.println("======================================================");
-				System.out.println("Your previous transaction is :");
-				getprevioustransaction();
-				break;
-
-			case 'E':
-				System.out.println("******************************************************");
-				break;
-
-			default:
-				System.out.println("Invalid option.... Please try again");
-				break;
-
-			}
-
-		} while (option != 'E');
-		System.out.println("Thank you have a great day");
-
-	}
+        } while (opcio != 'E');
+        
+        System.out.println("Gràcies. Que tinguis un bon dia!");
+    }
 }
